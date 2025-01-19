@@ -13,15 +13,18 @@ app.config['SECRET_KEY'] = 'oh_so_secret'
 
 # Attempts at getting session working on other than localhost
 # Set cookie settings to ensure it's valid for network access
-app.config.update(
-    SESSION_COOKIE_DOMAIN='192.168.1.137',  # Replace with your IP or domain
-    SESSION_COOKIE_SECURE=False,  # Set to True if using HTTPS
-)
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+# app.config.update(
+#     SERVER_NAME='192.168.1.137:5000',
+#     SESSION_COOKIE_NAME='192.168.1.137:5000',
+#     SESSION_COOKIE_DOMAIN='192.168.1.137:5000',  # Replace with your IP or domain
+#     SESSION_COOKIE_SECURE=False,  # Set to True if using HTTPS
+# )
+# app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 
 @app.route("/")
 def home():
+    session['itemlist'] = ''
     return """
 <!DOCTYPE html>
 <html lang="en">
@@ -165,10 +168,7 @@ def home():
 @app.route("/add_item", methods=['GET'])
 def hello():
     item = request.args.get('item', '')
-    if session['itemlist']:
-        session['itemlist'] += item
-    else:
-        session['itemlist'] = item
+    session['itemlist'] += item
     # app.items_selected += item
     # stored_value = 'test'
     stored_value = session['itemlist']
