@@ -1,11 +1,23 @@
 #!/bin/python3
 
-from flask import Flask, request
-from flask_cors import CORS
-import sqlite3
+from flask import Flask, session, request
+
+# from flask_cors import CORS
+# import sqlite3
 
 app = Flask(__name__)
-CORS(app)  # This will enable CORS for all routes
+app.config['SECRET_KEY'] = 'oh_so_secret'
+
+# CORS(app)  # This will enable CORS for all routes
+# app.items = ''
+
+# Attempts at getting session working on other than localhost
+# Set cookie settings to ensure it's valid for network access
+app.config.update(
+    SESSION_COOKIE_DOMAIN='192.168.1.137',  # Replace with your IP or domain
+    SESSION_COOKIE_SECURE=False,  # Set to True if using HTTPS
+)
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 
 @app.route("/")
@@ -17,6 +29,7 @@ def home():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mobile Webpage with Top and Bottom Bars</title>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,14 +63,14 @@ def home():
         }
 
         .top-bar input[type="text"] {
-            width: 100%;
+            width: 86%;
             padding: 10px;
             border: none;
             border-radius: 5px;
             outline: none;
         }
 
-        .checkbox-button {
+        .button {
             padding: 6px 10px;
             text-align: center;
             border-radius: 5px;
@@ -69,7 +82,7 @@ def home():
             flex: none;
         }
 
-        .checkbox-button.checked {
+        .button.checked {
             background-color: #007bff;
             color: white;
         }
@@ -120,22 +133,26 @@ def home():
     </div>
 
     <main>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Rice</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Potatoes</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Pasta</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Bread</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Cheese</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Chicken</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Beef</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Fish</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Vegetables</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Fruits</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Salad</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Soup</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Eggs</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Milk</button>
-        <button class="checkbox-button" onclick="toggleCheckbox(this)">Yogurt</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Rice"}'>Rice</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Potatoes"}'>Potatoes</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Pasta"}'>Pasta</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Bread"}'>Bread</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Cheese"}'>Cheese</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Chicken"}'>Chicken</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Beef"}'>Beef</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Fish"}'>Fish</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Vegetables"}'>Vegetables</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Fruits"}'>Fruits</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Salad"}'>Salad</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Soup"}'>Soup</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Eggs"}'>Eggs</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Milk"}'>Milk</button>
+        <button class="button" hx-trigger="click" hx-get="/add_item" hx-target="#results" hx-vals='{"item": "Yogurt"}'>Yogurt</button>
     </main>
+
+    <div id="results">
+        <!-- The results will be loaded here -->
+    </div>
 
     <div class="bottom-bar" onclick="alert('Proceeding to the next step')">
         <span>Set Values <i class="arrow"></i></span>
@@ -143,3 +160,16 @@ def home():
 </body>
 </html>
 """
+
+
+@app.route("/add_item", methods=['GET'])
+def hello():
+    item = request.args.get('item', '')
+    if session['itemlist']:
+        session['itemlist'] += item
+    else:
+        session['itemlist'] = item
+    # app.items_selected += item
+    # stored_value = 'test'
+    stored_value = session['itemlist']
+    return f"{item} added to {stored_value}"  # {app.items_selected}"
