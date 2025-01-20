@@ -20,16 +20,20 @@ def home():
         htmlcontainer.header() +
         htmlcontainer.top_bar() +
         htmlcontainer.meal_picker() +
-        htmlcontainer.results() +
         htmlcontainer.bottom_bar()
     )
     return page
 
 
-@app.route("/add_item", methods=['GET'])
+@app.route("/values", methods=['POST'])
 def hello():
-    item = request.args.get('item', '')
+    item = request.form.getlist('item')
     session['itemlist'].append(item)
     session.modified = True
     stored_value = session['itemlist']
-    return f"{item} added to {stored_value}"  # {app.items_selected}"
+    return f"""
+        {htmlcontainer.top_bar()}
+        {htmlcontainer.meal_picker()}
+        {item} added to {stored_value}
+        {htmlcontainer.bottom_bar()}
+    """

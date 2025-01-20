@@ -4,6 +4,13 @@
     <title>Mobile Webpage with Top and Bottom Bars</title>
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     <style>
+
+/* Hide the default checkbox */
+input[type="checkbox"] {
+    display: none;
+}
+
+
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -14,7 +21,6 @@
 
     main {
         padding: 20px;
-        /*  min-height: calc(100vh - 120px); */
         margin-top: 60px;
         display: flex;
         flex-wrap: wrap;
@@ -43,23 +49,24 @@
         outline: none;
     }
 
-    .checkbox-button {
-        padding: 6px 10px;
-        text-align: center;
-        border-radius: 5px;
+    /* Style the label to look like a button */
+    .checkbox-btn {
+        display: inline-block;
+        padding: 5px 8px;
+        margin: 3px;
+        font-size: 16px;
         background-color: lightgrey;
-        color: black;
         border: none;
+        border-radius: 3px;
         cursor: pointer;
-        font-size: 18px;
-        flex: none;
+        text-align: center;
+        transition: background-color 0.3s;
     }
 
-    .checkbox-button.checked {
+    /* Change appearance when checkbox is checked */
+    input[type="checkbox"]:checked + .checkbox-btn {
         background-color: #007bff;
-        color: white;
     }
-
     .bottom-bar {
         position: fixed;
         bottom: 0;
@@ -94,9 +101,4 @@
         -webkit-transform: rotate(-45deg);
     }
     </style>
-    <script>
-    function toggleCheckbox(button) {
-        button.classList.toggle('checked');
-    }
-    </script>
 </head>

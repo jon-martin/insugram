@@ -1,17 +1,24 @@
-<main>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Rice</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Potatoes</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Pasta</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Bread</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Cheese</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Chicken</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Beef</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Fish</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Vegetables</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Fruits</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Salad</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Soup</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Eggs</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Milk</button>
-    <button class="checkbox-button" onclick="toggleCheckbox(this)">Yogurt</button>
-</main>
+    <main>
+        <form id="checkbox-form" action="/values" method="GET">
+            <input type="checkbox" id="rice" name="item" value="rice">
+            <label for="rice" class="checkbox-btn">rice</label>
+            <input type="checkbox" id="potatoes" name="item" value="potatoes">
+            <label for="potatoes" class="checkbox-btn">potatoes</label>
+            <input type="checkbox" id="pasta" name="item" value="pasta">
+            <label for="pasta" class="checkbox-btn">pasta</label> 
+            <input type="checkbox" id="bread" name="item" value="bread">
+            <label for="bread" class="checkbox-btn">bread</label>
+            <input type="checkbox" id="cheese" name="item" value="cheese">
+            <label for="cheese" class="checkbox-btn">cheese</label>
+            <input type="checkbox" id="chicken" name="item" value="chicken">
+            <label for="chicken" class="checkbox-btn">chicken</label> 
+            <input type="checkbox" id="beef" name="item" value="beef">
+            <label for="beef" class="checkbox-btn">beef</label>
+            <input type="checkbox" id="fish" name="item" value="fish">
+            <label for="fish" class="checkbox-btn">fish</label>
+            <input type="checkbox" id="vegetables" name="item" value="vegetables">
+            <label for="vegetables" class="checkbox-btn">vegetables</label> 
+            <input type="checkbox" id="salad" name="item" value="salad">
+            <label for="salad" class="checkbox-btn">salad</label>
+        </form>
+    </main>
